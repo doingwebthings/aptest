@@ -18,3 +18,18 @@ steps:
     displayName: "install markdown-to-document"
   - script: mdtodoc ./manual/manual.md --layout "page" --theme "github" --embed-mode "light"
     displayName: generate HTML from markdown
+  # - task: DownloadBuildArtifacts@0
+  #   inputs:
+  #     buildType: "current"
+  #     downloadType: "single"
+  #     artifactName: "drop"
+  #     downloadPath: "$(System.ArtifactsDirectory)"
+  - task: CopyFiles@2
+    inputs:
+      contents: ./manual/**
+      targetFolder: $(Build.ArtifactStagingDirectory)
+      overWrite: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: MyBuildOutputs
