@@ -26,13 +26,13 @@ steps:
   #     downloadPath: "$(System.ArtifactsDirectory)"
   - task: CopyFiles@2
     inputs:
-      sourceFolder: $(Build.SourcesDirectory)/manual
+      sourceFolder: $(Build.SourcesDirectory)
       contents: |
-        manual.html
-        images\**\*
+        manual/manual.html
+        manual/images/**/*
       targetFolder: $(Build.ArtifactStagingDirectory)
       overWrite: true
   - task: PublishBuildArtifacts@1
     inputs:
-      pathToPublish: $(Build.ArtifactStagingDirectory)/manual
+      pathToPublish: $(Build.ArtifactStagingDirectory)
       artifactName: MyBuildOutputs
