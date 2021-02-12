@@ -28,11 +28,11 @@ steps:
       targetFolder: $(Build.ArtifactStagingDirectory)/manual
       overWrite: true
 - task: ArchiveFiles@2
-  displayName: 'Archive Manual'
-  inputs:
-    rootFolderOrFile: $(Build.ArtifactStagingDirectory)/manual
-    includeRootFolder: false
-    archiveFile: '$(Build.ArtifactStagingDirectory)/Manual.zip'
+    displayName: 'Archive Manual'
+    inputs:
+      rootFolderOrFile: $(Build.ArtifactStagingDirectory)/manual
+      includeRootFolder: false
+      archiveFile: '$(Build.ArtifactStagingDirectory)/Manual.zip'
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: '$(Build.ArtifactStagingDirectory)/Manual.zip'
