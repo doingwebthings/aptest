@@ -11,28 +11,29 @@ pool:
 
 steps:
   - task: NodeTool@0
+    displayName: "Install Node.js"
     inputs:
       versionSpec: "14.x"
-    displayName: "Install Node.js"
   - script: npm install markdown-to-document -g --only=prod
-    displayName: "install markdown-to-document"
+    displayName: "Install markdown-to-document"
   - script: mdtodoc ./manual/manual.md --layout "page" --theme "github" --embed-mode "light"
-    displayName: generate HTML from markdown
-  # - task: DownloadBuildArtifacts@0
-  #   inputs:
-  #     buildType: "current"
-  #     downloadType: "single"
-  #     artifactName: "drop"
-  #     downloadPath: "$(System.ArtifactsDirectory)"
+    displayName: Generate HTML from markdown
   - task: CopyFiles@2
+    displayName: "Copy Files to $(Build.ArtifactStagingDirectory)"
     inputs:
       sourceFolder: $(Build.SourcesDirectory)
       contents: |
         manual/manual.html
         manual/images/**/*
-      targetFolder: $(Build.ArtifactStagingDirectory)
+      targetFolder: $(Build.ArtifactStagingDirectory)/manual
       overWrite: true
+- task: ArchiveFiles@2
+  displayName: 'Archive Manual'
+  inputs:
+    rootFolderOrFile: $(Build.ArtifactStagingDirectory)/manual
+    includeRootFolder: false
+    archiveFile: '$(Build.ArtifactStagingDirectory)/Manual.zip'
   - task: PublishBuildArtifacts@1
     inputs:
-      pathToPublish: $(Build.ArtifactStagingDirectory)
-      artifactName: MyBuildOutputs
+      pathToPublish: '$(Build.ArtifactStagingDirectory)/Manual.zip'
+      artifactName: Manual
